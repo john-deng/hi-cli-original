@@ -89,7 +89,7 @@ function main() {
 
   script_file=${HI_CLI_HOME}/plugins/${name}/${action}
 
-  if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it with? [yes/no]"; then
+  if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
     create_new_script
   else
     exit
