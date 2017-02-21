@@ -1,0 +1,74 @@
+#!/bin/bash
+###############################################################################
+# Project: hi-cli
+# Description: The cross platform development toolkit - hi-cli
+# Author: John Deng (john.deng@outlook.com)
+#
+# Copyright (c) 2014-2017 John Deng (john.deng@outlook.com)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: John Deng (john.deng@outlook.com)
+# Updated: 2017-02-11
+###############################################################################
+export ver="0.0.1"
+
+if [ "${HI_CLI_HOME}" == "" ]; then
+  echo ""
+  echo "Warning:"
+  echo "Please install hi-cli first!"
+  echo "cd /path/to/hi-cli/bin"
+  echo "./install"
+  exit
+fi
+
+plugin_name=$1
+plugin_action=$2
+
+source ${HI_CLI_HOME}/bin/colors
+source ${HI_CLI_HOME}/bin/clap
+source ${HI_CLI_HOME}/bin/logging
+
+app="hi-cli"
+
+log_info "Running: ${CMD_LINE}"
+
+function show_version() {
+  echo ""
+  echo "${app} version: $ver"
+  echo "${app} is the client tool for simplifying shell commands"
+}
+
+function show_hi_usage() {
+
+  show_version
+
+  echo "
+usages:
+  ${app} plugin-name plugin-action arguments
+  ${app} mvn rebuild
+"
+}
+
+function main() {
+  if [ -f "${HI_CLI_HOME}/bin/${plugin_name}/${plugin_action}" ]; then
+    bash ${HI_CLI_HOME}/bin/${plugin_name}/${plugin_action}
+  elif [ -f "${HI_CLI_HOME}/plugins/${plugin_name}/${plugin_action}" ]; then
+    bash ${HI_CLI_HOME}/plugins/${plugin_name}/${plugin_action}
+  else
+    show_hi_usage
+  fi
+
+  exit 0
+}
+main
