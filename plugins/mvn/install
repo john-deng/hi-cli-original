@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 16:29:07 CST 2017
+# Updated: Tue Feb 21 22:17:25 CST 2017
 # Plugin: mvn
 # Action: install
 ###############################################################################
@@ -28,21 +28,16 @@ source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
+function run() {
+  cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"
 
-skip_test=
-if [ "${test}" == "" ]; then
-  skip_test="-Dmaven.test.skip=true"
-fi
+  ${cli}
 
-cli="mvn install -Dbuild=dev ${skip_test}"
+  result=$?
 
-${cli}
-
-if [ $? == 0 ]; then
-  log_info "Success on command: ${cli}"
-else
-  log_error "Failed on command: ${cli}"
-fi
+  eval $1="$result"
+  eval $2="$cli"
+}
 
 ###############################################################################
 

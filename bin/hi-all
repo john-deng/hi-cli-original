@@ -40,33 +40,50 @@ source ${HI_CLI_HOME}/bin/logging
 source ${HI_CLI_HOME}/bin/version
 source ${HI_CLI_HOME}/bin/usage
 
+modules=""
+
+filter="${HI_CLI_HOME}/plugins/${plugin_name}/filter"
+#log_debug "${filter}"
+if [ -f ${filter} ]; then
+  source ${filter}
+  find_modules modules
+  if [ "${modules}" == "" ]; then
+    log_info "No module found!"
+    exit
+  fi
+
+else
+  log_error "Filter is not fould"
+  exit
+fi
+
 app="hi"
 
-#log_info "Running: ${CMD_LINE}"
+log_info "Running: ${CMD_LINE}"
 
 function main() {
-  
-
-  default_plugin="${HI_CLI_HOME}/bin/${plugin_name}/${plugin_action}"
   custom_plugin="${HI_CLI_HOME}/plugins/${plugin_name}/${plugin_action}"
-  if [ -f "${default_plugin}" ]; then
-    source "${default_plugin}"
-  elif [ -f "${custom_plugin}" ]; then
-    source "${custom_plugin}"
+  module_cmd=${CMD_LINE}
+  if [ -f "${custom_plugin}" ]; then
+    module_cmd=${module_cmd/-all/}
   else
-    show_hi_usage
+    show_version
+    module_cmd=${module_cmd/hi-all/}
+  fi
+  if [ "${unlimited}" == "unlimited" ]; then
+    module_cmd=${module_cmd/unlimited/}
   fi
 
-  result=0
-  run result cli
-
-  if [ ${result} == 0 ]; then
-    log_trace "Success: ${cli}"
-  else
-    log_error "Failed: ${cli}"
-  fi
-
+  #log_debug "modules: ${modules}"
+  for module in $modules 
+  do
+    log_info "=> ${module}"
+    pushd "${module}" > /dev/null
+    
+    ${module_cmd}
+    
+    popd > /dev/null
+  done
   exit 0
 }
-show_version
 main

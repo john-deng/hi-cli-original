@@ -19,24 +19,24 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 22:17:44 CST 2017
-# Plugin: mvn
-# Action: package
+# Updated: Tue Feb 21 20:19:52 CST 2017
+# Plugin: volume
+# Action: create
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
+
+source ${HI_CLI_HOME}/plugins/volume/init
 ###############################################################################
 function run() {
-  cli="mvn clean package -Dbuild=dev -Dmaven.test.skip=true"
-
-  ${cli}
+  create_pv
 
   result=$?
 
-  eval $1="$result"
-  eval $2="$cli"
+  eval  $1='"\$result"' 
+  eval  $2='"\$cli"'
 }
 
 ###############################################################################

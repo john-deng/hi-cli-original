@@ -26,7 +26,7 @@ source ${HI_CLI_HOME}/bin/init
 source ${HI_CLI_HOME}/bin/colors
 
 function log_debug() {
-	echo "[LINE: ${BASH_LINENO[*]}] $1"
+	${ECHO_E} "${TEAL}[hi-cli] [LINE: ${BASH_LINENO[*]}] $1 ${ENDCOLOR}"
 }
 
 function log_base()
@@ -37,6 +37,11 @@ function log_base()
 function log_info()
 {
 	log_base "$1" "${GREEN}"
+}
+
+function log_trace()
+{
+	log_base "$1" "${TEAL}"
 }
 
 function log_warn()

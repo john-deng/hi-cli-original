@@ -67,16 +67,16 @@ source \${HI_CLI_HOME}/bin/colors
 source \${HI_CLI_HOME}/bin/clap
 source \${HI_CLI_HOME}/bin/logging
 ###############################################################################
+function run() {
+  cli="'"'"${cli}"'"'"
 
-cli="'"'"${cli}"'"'"
+  \${cli}
 
-\${cli}
+  result=\$?
 
-if [ \$? == 0 ]; then
-  log_info "'"'"Success on command: \${cli}"'"'"
-else
-  log_error "'"'"Failed on command: \${cli}"'"'"
-fi
+  eval \$1="'"'"\$result"'"'"
+  eval \$2="'"'"\$cli"'"'"
+}
 
 ###############################################################################
 
@@ -84,16 +84,20 @@ fi
 
 }
 
+function run() {
+  result=1
+  if [ "${action}" != "filter" ]; then
+    script_file=${HI_CLI_HOME}/plugins/${name}/${action}
 
-function main() {
-
-  script_file=${HI_CLI_HOME}/plugins/${name}/${action}
-
-  if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
-    create_new_script
-  else
-    exit
+    if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
+      create_new_script
+      result=$?
+    else
+      exit
+    fi
+    
   fi
-  
+
+  eval  $1='"$result"' 
+  eval  $2='"$cli"' 
 }
-main

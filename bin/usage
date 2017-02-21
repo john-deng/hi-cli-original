@@ -26,7 +26,6 @@ source ${HI_CLI_HOME}/bin/colors
 
 function show_hi_usage() {
 
-  show_version
   ${ECHO_E} " ${TEAL}usages:
   ${app} plugin-name plugin-action arguments
   ${app} mvn rebuild 
