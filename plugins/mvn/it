@@ -29,14 +29,13 @@ source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
 function run() {
-  cli="mvn integration-test -P integration"
+  cli="mvn integration-test -P integration -Dbuild=dev"
 
   ${cli}
 
   result=$?
 
   eval $1="$result"
-  eval $2="$cli"
 }
 
 ###############################################################################

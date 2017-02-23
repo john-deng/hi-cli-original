@@ -50,6 +50,7 @@ function main() {
   default_plugin="${HI_CLI_HOME}/bin/${plugin_name}/${plugin_action}"
   custom_plugin="${HI_CLI_HOME}/plugins/${plugin_name}/${plugin_action}"
   if [ -f "${default_plugin}" ]; then
+    echo "default_plugin: $default_plugin"
     source "${default_plugin}"
   elif [ -f "${custom_plugin}" ]; then
     source "${custom_plugin}"
@@ -62,11 +63,11 @@ function main() {
   run result cli
 
   if [ ${result} == 0 ]; then
-    log_trace "Success: ${cli}"
+    log_info "${cli} success"
   else
-    log_error "Failed: ${cli}"
+    log_error "${cli} fail"
   fi
-
+  
   exit 0
 }
 show_version

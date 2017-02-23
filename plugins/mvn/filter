@@ -26,7 +26,7 @@ source ${HI_CLI_HOME}/bin/logging
 
 function find_modules() {
     log_debug "find_modules in mvn: $PWD"
-    result=$(find . -name "pom.xml" | { while read module; do
+    result=$(find . -name "pom.xml" | grep  | { while read module; do
         
         module=${module%:*}
         module=${module/.\//}

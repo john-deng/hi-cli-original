@@ -31,12 +31,11 @@ source ${HI_CLI_HOME}/bin/logging
 function run() {
   cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"
 
-  ${cli}
+  mvn install -Dbuild=dev -Dmaven.test.skip=true
 
   result=$?
 
   eval $1="$result"
-  eval $2="$cli"
 }
 
 ###############################################################################

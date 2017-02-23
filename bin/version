@@ -28,12 +28,12 @@ function show_version()
 {
     export HI_CLI_VERSION='0.0.1'
 
-    ${ECHO_E} "${GREEN}
+    ${ECHO_E} "${DARKTEAL}
     _|        _|                        _|  _|
     _|_|_|                      _|_|_|  _|
     _|    _|  _|  _|_|_|_|_|  _|        _|  _|
     _|    _|  _|              _|        _|  _|
-    _|    _|  _|                _|_|_|  _|  _| ${ENDCOLOR}${DARKGRAY}
+    _|    _|  _|                _|_|_|  _|  _| ${ENDCOLOR}${TEAL}
  Author: John Deng Version: $HI_CLI_VERSION Updated: 2017-2-14${ENDCOLOR}
     "
 }
