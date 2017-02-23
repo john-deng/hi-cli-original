@@ -55,6 +55,7 @@ function main() {
     source "${custom_plugin}"
   else
     show_hi_usage
+    exit
   fi
 
   result=0

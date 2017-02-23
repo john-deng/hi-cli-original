@@ -70,12 +70,11 @@ source \${HI_CLI_HOME}/bin/logging
 function run() {
   cli="'"'"${cli}"'"'"
 
-  \${cli}
+  ${cli}
 
   result=\$?
 
   eval \$1="'"'"\$result"'"'"
-  eval \$2="'"'"\$cli"'"'"
 }
 
 ###############################################################################
@@ -89,13 +88,18 @@ function run() {
   if [ "${action}" != "filter" ]; then
     script_file=${HI_CLI_HOME}/plugins/${name}/${action}
 
-    if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
-      create_new_script
-      result=$?
+    mkdir -p ${HI_CLI_HOME}/plugins/${name}
+
+    if [ -f "${script_file}" ]; then
+      if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
+        create_new_script
+        result=$?
+      else
+        exit
+      fi
     else
-      exit
+      create_new_script  
     fi
-    
   fi
 
   eval  $1='"$result"' 

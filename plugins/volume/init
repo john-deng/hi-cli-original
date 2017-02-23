@@ -5,31 +5,7 @@
 # Author: John Deng (john.deng@outlook.com)
 # Updated: 2017-02-11
 ###############################################################################
-export ver="0.0.1"
 
-source $(which clap)
-source $(which logging)
-
-app="amc"
-
-echo "cmd: $CMD_LINE"
-
-function show_version() {
-  echo ""
-  echo "amc version: $ver"
-  echo "amc is the client tool for simplifying shell commands"
-}
-
-function show_pv_usage() {
-  show_version
-  echo "usages: "
-  echo "  ${app} create pv size=10 "
-  echo "  ${app} delete pv=pv-name"
-  echo "  ${app} edit pv size=8 cmd="'"'"chmod 644 {}"'"'" "
-  echo "  ${app} edit pv size=8 cmd="'"'"chown 27:27 {}"'"'" "
-  echo "  ${app} edit pv size=8 uid=27 pvc name=mysql-pvc "
-  echo "  ${app} delete pv pvc name="'"'"nexus-data"'"'" "
-}
 
 function show_exec_usage() {
   show_version
