@@ -98,7 +98,8 @@ function run() {
         exit
       fi
     else
-      create_new_script  
+      create_new_script 
+      # create link to $(brew --prefix)/etc/bash_completion.d for mac or /etc/bash_completion.d for linux 
     fi
   fi
 
