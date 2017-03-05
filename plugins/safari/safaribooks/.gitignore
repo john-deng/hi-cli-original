@@ -1,0 +1,7 @@
+output/
+*.ipynb
+*.pyc
+*.epub
+*.mobi
+*.pyc
+*/*.pyc

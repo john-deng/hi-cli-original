@@ -51,6 +51,10 @@ function log_warn()
 
 function log_error()
 {
-	log_base "[LINE: ${BASH_LINENO[*]}] $1" "${RED}"
+	if [ "$2" == "no-debug" ]; then
+	  log_base "$1" "${RED}"
+	else
+	  log_base "[LINE: ${BASH_LINENO[*]}] $1" "${RED}"
+	fi
 }
 

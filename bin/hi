@@ -60,12 +60,13 @@ function main() {
   fi
 
   result=0
+  cli=${cli}
   run result cli
 
   if [ ${result} == 0 ]; then
-    log_info "${cli} success"
+    log_info "${cli} : success"
   else
-    log_error "${cli} fail"
+    log_error "${cli} : fail" "no-debug"
   fi
   
   exit 0
