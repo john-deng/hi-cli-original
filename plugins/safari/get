@@ -47,7 +47,7 @@ function run() {
     cli="scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password='******' -a bookid=${id}"
     scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password=${SBO_PASSWORD} -a bookid=${id}
     result=$?
-    # log_debug "result: ${result}"
+    # move epub files to work_dir
     mv *.epub ${work_dir}/
 
     popd
@@ -57,9 +57,11 @@ function run() {
     result=-1
     cli="get"
   fi
+
+  #log_debug "cli: ${cli}"
   
   eval  $1="${result}"
-  eval  $2="${cli}"
+  eval  $2='"${cli}"'
 }
 
 ###############################################################################
