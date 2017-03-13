@@ -31,6 +31,20 @@ source ${HI_CLI_HOME}/bin/logging
 function run() {
   cli="mvn deploy -Dbuild=dev"
 
+  if [ "${jar}" != "" ]; then
+    if [ "${jar}" == "jar" ]; then
+      if [ "${aid}" != "" ]; then
+        jar=${aid}.jar
+      else
+        jar=
+      fi
+    fi
+
+    if [ "${jar}" != "" ]; then
+      cli="mvn deploy:deploy-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar}"
+    fi
+  fi
+
   ${cli}
 
   result=$?

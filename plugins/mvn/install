@@ -30,8 +30,21 @@ source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
 function run() {
   cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"
+  if [ "${jar}" != "" ]; then
+    if [ "${jar}" == "jar" ]; then
+      if [ "${aid}" != "" ]; then
+        jar=${aid}.jar
+      else
+        jar=
+      fi
+    fi
 
-  mvn clean install -Dbuild=dev -Dmaven.test.skip=true
+    if [ "${jar}" != "" ]; then
+      cli="mvn install:install-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar}"
+    fi
+  fi
+
+  ${cli}
 
   result=$?
 
