@@ -33,7 +33,7 @@ function show_new_script_usage() {
   echo "  ${app} new script name=mvn action=rebuild cli="'"'"mvn clean package -Dbuild=dev -Dmaven.test.skip=true"'"'"  "
 }
 
-#log_info "${HI_CLI_HOME}/plugins/${name}/${action}"
+#log_info "${HI_CLI_HOME}/modules/${name}/${action}"
 
 function create_new_script() {
 
@@ -59,7 +59,7 @@ echo "#!/bin/bash
 #
 # Author: John Deng (john.deng@outlook.com)
 # Updated: $(date)
-# Plugin: ${name}
+# module: ${name}
 # Action: ${action}
 ###############################################################################
 
@@ -79,19 +79,19 @@ function run() {
 
 ###############################################################################
 
-" > ${HI_CLI_HOME}/plugins/${name}/${action}
+" > ${HI_CLI_HOME}/modules/${name}/${action}
 
 }
 
 function run() {
   result=1
   if [ "${action}" != "filter" ]; then
-    script_file=${HI_CLI_HOME}/plugins/${name}/${action}
+    script_file=${HI_CLI_HOME}/modules/${name}/${action}
 
-    mkdir -p ${HI_CLI_HOME}/plugins/${name}
+    mkdir -p ${HI_CLI_HOME}/modules/${name}
 
     if [ -f "${script_file}" ]; then
-      if prompt_yesorno "The plugin $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
+      if prompt_yesorno "The module $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
         create_new_script
         result=$?
       else

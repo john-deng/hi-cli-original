@@ -19,36 +19,24 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 22:17:25 CST 2017
-# Plugin: mvn
-# Action: install
+# Updated: Tue Feb 21 20:19:52 CST 2017
+# module: volume
+# Action: create
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
+
+source ${HI_CLI_HOME}/modules/volume/init
 ###############################################################################
 function run() {
-  cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"
-  if [ "${jar}" != "" ]; then
-    if [ "${jar}" == "jar" ]; then
-      if [ "${aid}" != "" ]; then
-        jar=${aid}.jar
-      else
-        jar=
-      fi
-    fi
-
-    if [ "${jar}" != "" ]; then
-      cli="mvn install:install-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar}"
-    fi
-  fi
-
-  ${cli}
+  create_pv
 
   result=$?
 
-  eval $1="$result"
+  eval  $1='"\$result"' 
+  eval  $2='"\$cli"'
 }
 
 ###############################################################################

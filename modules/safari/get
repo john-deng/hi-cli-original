@@ -20,7 +20,7 @@
 #
 # Author: John Deng (john.deng@outlook.com)
 # Updated: Tue Feb 21 20:19:52 CST 2017
-# Plugin: volume
+# module: volume
 # Action: create
 ###############################################################################
 
@@ -28,15 +28,40 @@ source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 
-source ${HI_CLI_HOME}/plugins/volume/init
+source ${HI_CLI_HOME}/modules/volume/init
 ###############################################################################
 function run() {
-  create_pv
+  
+  cli=${cli}
 
-  result=$?
+  if [ "${id}" == "" ] && [ "${url}" != "" ]; then
+    id=${url:0:${#url}-1}
+    id=${id##*/}
+  fi
+  log_info "working directory: ${PWD}"
+  work_dir=${PWD}
+  if [ "${id}" != "" ]; then
+    log_info "convert new book: ${id}"
+    
+    pushd ${HI_CLI_HOME}/modules/safari/safaribooks > /dev/null
+    cli="scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password='******' -a bookid=${id}"
+    scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password=${SBO_PASSWORD} -a bookid=${id}
+    result=$?
+    # move epub files to work_dir
+    mv *.epub ${work_dir}/
 
-  eval  $1='"\$result"' 
-  eval  $2='"\$cli"'
+    popd
+
+  else
+    log_info "id is null"
+    result=-1
+    cli="get"
+  fi
+
+  #log_debug "cli: ${cli}"
+  
+  eval  $1="${result}"
+  eval  $2='"${cli}"'
 }
 
 ###############################################################################

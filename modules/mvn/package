@@ -19,9 +19,9 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Thu Feb 23 09:52:37 CST 2017
-# Plugin: ipv4
-# Action: query
+# Updated: Tue Feb 21 22:17:44 CST 2017
+# module: mvn
+# Action: package
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
@@ -29,9 +29,9 @@ source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
 function run() {
-  cli="ip a | grep inet | grep -v '::'"
+  cli="mvn clean package -Dbuild=dev -Dmaven.test.skip=true"
 
-  ip a | grep inet | grep -v '::' | sed s/inet//g | sed s/brd/-/g
+  ${cli}
 
   result=$?
 

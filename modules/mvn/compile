@@ -19,9 +19,9 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 22:14:24 CST 2017
-# Plugin: mvn
-# Action: clean
+# Updated: Tue Feb 21 22:16:00 CST 2017
+# module: mvn
+# Action: compile
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
@@ -29,7 +29,7 @@ source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
 function run() {
-  cli="mvn clean -Dbuild=dev"
+  cli="mvn compile -Dbuild=dev -Dmaven.test.skip=true"
 
   ${cli}
 

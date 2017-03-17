@@ -19,49 +19,36 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 20:19:52 CST 2017
-# Plugin: volume
-# Action: create
+# Updated: Tue Feb 21 22:17:25 CST 2017
+# module: mvn
+# Action: install
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
-
-source ${HI_CLI_HOME}/plugins/volume/init
 ###############################################################################
 function run() {
-  
-  cli=${cli}
+  cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"
+  if [ "${jar}" != "" ]; then
+    if [ "${jar}" == "jar" ]; then
+      if [ "${aid}" != "" ]; then
+        jar=${aid}.jar
+      else
+        jar=
+      fi
+    fi
 
-  if [ "${id}" == "" ] && [ "${url}" != "" ]; then
-    id=${url:0:${#url}-1}
-    id=${id##*/}
-  fi
-  log_info "working directory: ${PWD}"
-  work_dir=${PWD}
-  if [ "${id}" != "" ]; then
-    log_info "convert new book: ${id}"
-    
-    pushd ${HI_CLI_HOME}/plugins/safari/safaribooks > /dev/null
-    cli="scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password='******' -a bookid=${id}"
-    scrapy crawl SafariBooks -a user=${SBO_USERNAME} -a password=${SBO_PASSWORD} -a bookid=${id}
-    result=$?
-    # move epub files to work_dir
-    mv *.epub ${work_dir}/
-
-    popd
-
-  else
-    log_info "id is null"
-    result=-1
-    cli="get"
+    if [ "${jar}" != "" ]; then
+      cli="mvn install:install-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar}"
+    fi
   fi
 
-  #log_debug "cli: ${cli}"
-  
-  eval  $1="${result}"
-  eval  $2='"${cli}"'
+  ${cli}
+
+  result=$?
+
+  eval $1="$result"
 }
 
 ###############################################################################

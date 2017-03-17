@@ -31,8 +31,9 @@ if [ "${HI_CLI_HOME}" == "" ]; then
   exit
 fi
 
-plugin_name=$1
-plugin_action=$2
+module_name=$1
+module_action=$2
+module_sub_action=$3
 
 source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
@@ -45,15 +46,25 @@ app="hi"
 #log_info "Running: ${CMD_LINE}"
 
 function main() {
-  
 
-  default_plugin="${HI_CLI_HOME}/bin/${plugin_name}/${plugin_action}"
-  custom_plugin="${HI_CLI_HOME}/plugins/${plugin_name}/${plugin_action}"
-  if [ -f "${default_plugin}" ]; then
-    echo "default_plugin: $default_plugin"
-    source "${default_plugin}"
-  elif [ -f "${custom_plugin}" ]; then
-    source "${custom_plugin}"
+  module="${HI_CLI_HOME}/modules/${module_name}/${module_action}"
+  if [ "${module_sub_action}" != "" ]; 
+  then
+    sub_module="${HI_CLI_HOME}/modules/${module_name}/${module_action}/${module_sub_action}"
+    if [ -f "${sub_module}" ]; 
+    then
+      module="${sub_module}"
+    fi
+  fi
+  export module
+  
+  default_module="${HI_CLI_HOME}/bin/${module_name}/${module_action}"
+  
+  if [ -f "${default_module}" ]; then
+    echo "default_module: $default_module"
+    source "${default_module}"
+  elif [ -f "${module}" ]; then
+    source "${module}"
   else
     show_hi_usage
     exit
