@@ -6,6 +6,7 @@
 # Updated: 2017-02-11
 ###############################################################################
 
+source ${HI_CLI_HOME}/bin/utils
 
 function show_exec_usage() {
   show_version
@@ -80,18 +81,69 @@ EOF
 }
 
 function delete_pv() {
+  name=$1
+  if [ "${name}" == "" ]; 
+  then
+    log_warn "pv name is null"
+    exit
+  fi
   if [ "$delete" == "delete" ]; then 
-    echo deleting pv $pv
-    volume=$(oc describe pv $pv | grep Path | awk '{print $2}' | sed s/vol_//g)
-    heketi-cli volume delete $volume
-    oc delete pv $pv
-  fi  
+    log_info "deleting pv ${name}"
+    pv_info=$(oc get pv ${name} -o json)
+    if [ $? == 0 ]; 
+    then
+      log_info "${pv_info}"
+
+      parse_json vol_path "${pv_info}" spec glusterfs path
+      
+      volume=${vol_path/vol_/}
+      heketi-cli volume delete ${volume}
+      oc delete pv $name
+    else
+      log_warn "pv $name not found"
+    fi
+  fi
+}
+
+function delete_pvc() {
+  log_debug $pv
+  pv_name=$(oc get pvc | grep ${name} | awk '{print $3}')
+  log_debug ${pv_name}
+
+  if [ "${pv_name}" != "" ] && [ $(oc get pvc | grep "${pv_name}" | grep "Bound" | wc -l) != 0 ]; 
+  then
+    delete_pv ${pv_name}
+  fi
+  log_info  "deleting pvc, name: $name"
+  if [ $(oc get pvc | grep ${name} | wc -l) != 0 ]; 
+  then
+    log_debug "delete pvc $name"
+    oc delete pvc ${name}
+    log_debug "pvc ${name} is deleted"
+  else
+    log_warn "pvc ${name} not found"  
+  fi
 }
 
 function create_pv() {
-  echo creating pv size=$size
-  result=$(heketi-cli volume create --size=$size --persistent-volume --persistent-volume-endpoint=heketi-storage-endpoints | oc create -f - )
-  new_pv=$(echo $result | awk '{print $2}' | sed s/\"//g)
+  mkdir -p ${module_dir}/endpoints
+  ep_file="${module_dir}/endpoints/endpoints.json"
+  
+  heketi-cli volume create --size=${size} --persistent-volume --persistent-volume-endpoint=heketi-storage-endpoints > ${ep_file}
+
+  ep=$(cat ${ep_file})
+
+  log_debug "${ep}"
+
+  parse_json pv_name "${ep}" metadata name
+
+  oc create -f ${ep_file}
+
+  parse_json vol_path "${ep}" spec glusterfs path
+
+  rm -rf ${ep_file}
+  # mv ${ep_file} ${module_dir}/endpoints/${vol_path}.json
+
   if [ "$cmd" == "" ]; then
     cmd="chmod 777 {}"
   fi
@@ -99,7 +151,7 @@ function create_pv() {
     cmd="chown ${uid}:${uid} {}"
   fi
 
-  exec_command_on_volume "${new_pv}" "${cmd}"
+  exec_command_on_volume "${pv_name}" "${cmd}"
 }
 
 function create_pvc() {
@@ -163,7 +215,7 @@ function main() {
       echo  "delete pvc, name: $name"
       
       if [ "$pv" = "pv" ]; then
-        pv=$(oc get pvc | grep nexus-postgres-data | awk '{print $3}')
+        pv=$(oc get pvc | grep $name | awk '{print $3}')
         if [ "$pv" != "" ]; then
           delete_pv
         fi
@@ -187,5 +239,3 @@ function main() {
     fi
   fi
 }
-
-main

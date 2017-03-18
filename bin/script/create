@@ -95,7 +95,6 @@ function run() {
     if [ -f "${script_file}" ]; then
       if prompt_yesorno "The module $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
         create_new_script
-        result=$?
       else
         exit
       fi
@@ -104,6 +103,7 @@ function run() {
       # create link to $(brew --prefix)/etc/bash_completion.d for mac or /etc/bash_completion.d for linux 
     fi
   fi
+  result=$?
 
   eval  $1='"$result"' 
   eval  $2='"$cli"' 

@@ -19,35 +19,26 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Tue Feb 21 20:19:52 CST 2017
-# module: volume
-# Action: create
+# Updated: Sat Mar 18 15:33:39 CST 2017
+# module: oc
+# Action: login
 ###############################################################################
 
 source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
-source ${HI_CLI_HOME}/bin/utils
-source ${HI_CLI_HOME}/modules/heketi/init
 ###############################################################################
-
 function run() {
-  
-  log_debug "module_dir: ${module_dir}, command: ${module_command}"
-  src=$(cat ${module_dir}/endpoint.json)
-  
-  parse_json result "${src}" metadata name
-  log_debug "${result}"
-  
-  cli="echo 'test parse json'"
+  cli="oc login"
+
+  oc login ${OPENSHIFT_MASTER}
 
   result=$?
 
-  eval  $1="\${result}"
-  eval  $2="\${cli}"
+  eval $1=\${result}
+  eval $2=\${cli}
 }
 
 ###############################################################################
-
 
 

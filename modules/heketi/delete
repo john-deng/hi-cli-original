@@ -28,21 +28,31 @@ source ${HI_CLI_HOME}/bin/colors
 source ${HI_CLI_HOME}/bin/clap
 source ${HI_CLI_HOME}/bin/logging
 source ${HI_CLI_HOME}/bin/utils
+source ${module_dir}/init
 ###############################################################################
 
 function run() {
 
-  if [ "${size}" == "" ];
+  if [ "${name}" == "" ];
   then
     # usage
-    log_warn "please specify size"
+    log_warn "please specify which pv to delete: e.g. hi pv delete name=glusterfs-fec0e432"
     exit
   fi
 
-  create_pv
-  if [ "${pvc}" == "pvc" ] && [ "${name}" != "" ]; 
+  if [ "${pvc}" == "pvc" ]; 
   then
-    create_pvc
+    if prompt_yesorno "Do you wish to delete pvc ${name}? [yes/no]"; then
+      delete_pvc ${name}
+    fi
+  else  
+    if [ $(oc get pv | grep ${name} | wc -l) == 0 ] 
+    then
+      log_warn "pv ${name} does not exist!"
+    fi
+    if prompt_yesorno "Do you wish to delete pv ${name}? [yes/no]"; then
+      delete_pv ${name}
+    fi
   fi
 
   result=$?
@@ -52,6 +62,3 @@ function run() {
 }
 
 ###############################################################################
-
-
-

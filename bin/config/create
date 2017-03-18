@@ -63,11 +63,7 @@ echo "#!/bin/bash
 # Action: ${action}
 ###############################################################################
 
-
-export ${cli}
-
-
-###############################################################################
+${cli}
 
 " > ${HI_CLI_HOME}/modules/${module}/config
 
@@ -77,9 +73,11 @@ function run() {
   log_debug "========== new ==============="
   result=1
   if [ "${action}" != "filter" ]; then
-    script_file=${HI_CLI_HOME}/modules/${module}/${action}
+    script_file=${module_dir}
 
-    mkdir -p ${HI_CLI_HOME}/modules/${module}
+    log_debug $script_file
+
+    mkdir -p ${module_dir}
 
     if [ -f "${script_file}" ]; then
       if prompt_yesorno "The module $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
@@ -94,6 +92,6 @@ function run() {
     fi
   fi
 
-  eval  $1='"$result"' 
-  eval  $2='"$cli"' 
+  eval  $1="\${result}"
+  eval  $2="\${cli}"
 }

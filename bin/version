@@ -30,12 +30,12 @@ function show_version()
     export HI_CLI_UPDATED_DATE='2017-03-18'
 
     ${ECHO_E} "${DARKGREEN}
-    _|        _|                    _|  _|
-    _|_|_|                  _|_|_|  _|
-    _|    _|  _|  _|_|_|  _|        _|  _|
-    _|    _|  _|          _|        _|  _|
-    _|    _|  _             _|_|_|  _|  _| ${ENDCOLOR}${TEAL}
-
- Author: John Deng Version: $HI_CLI_VERSION Updated: ${HI_CLI_UPDATED_DATE}${ENDCOLOR}
-    "
+       / 7_  (_)     _____/ (_)
+      / __ \/ /_____/ ___/ / /
+     / / / / /_____/ /__/ / /
+    /_/ /_/_/      \___/_/_/
+${ENDCOLOR}${TEAL} 
+    Version: $HI_CLI_VERSION 
+    Author: John Deng (john.deng@outlook.com)
+    ${ENDCOLOR}"
 }

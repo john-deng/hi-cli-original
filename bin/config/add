@@ -33,10 +33,9 @@ function show_new_script_usage() {
   echo "  ${app} config add module=abc cli='ABC=DEF' "
 }
 
-function create_new_script() {
-
+function add_config() {
 echo "
-export ${cli}
+${cli}
 " >> ${HI_CLI_HOME}/modules/${module}/config
 }
 
@@ -44,23 +43,19 @@ function run() {
   log_debug "========== new ==============="
   result=1
   if [ "${action}" != "filter" ]; then
-    script_file=${HI_CLI_HOME}/modules/${module}/${action}
-
-    mkdir -p ${HI_CLI_HOME}/modules/${module}
-
-    if [ -f "${script_file}" ]; then
-      if prompt_yesorno "The module $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
-        create_new_script
-        result=$?
+    module_file=${HI_CLI_HOME}/modules/${module}/config
+    log_debug $module_file
+    if [ $(cat ${module_file} | grep "${cli}" | wc -l) != 0 ]; then
+      if prompt_yesorno "${cli} is already exist, do you wish to add it? [yes/no]"; then
+        add_config
       else
         exit
       fi
     else
-      create_new_script 
-      # create link to $(brew --prefix)/etc/bash_completion.d for mac or /etc/bash_completion.d for linux 
+      add_config
     fi
   fi
-
+  result=$?
   eval  $1='"$result"' 
   eval  $2='"$cli"' 
 }
