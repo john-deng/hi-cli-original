@@ -63,24 +63,13 @@ echo "#!/bin/bash
 # Action: ${action}
 ###############################################################################
 
-source \${HI_CLI_HOME}/bin/colors
-source \${HI_CLI_HOME}/bin/clap
-source \${HI_CLI_HOME}/bin/logging
-###############################################################################
-function run() {
-  cli="'"'"${cli}"'"'"
 
-  ${cli}
+export ${cli}
 
-  result=\$?
-
-  eval \$1="\\\${result}"
-  eval \$2="\\\${cli}"
-}
 
 ###############################################################################
 
-" > ${HI_CLI_HOME}/modules/${module}/${action}
+" > ${HI_CLI_HOME}/modules/${module}/config
 
 }
 

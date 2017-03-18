@@ -19,51 +19,48 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: 2017-02-11
+# Updated: 2017-02-21
 ###############################################################################
 
+source ${HI_CLI_HOME}/bin/clap
+source ${HI_CLI_HOME}/bin/logging
 source ${HI_CLI_HOME}/bin/colors
+source ${HI_CLI_HOME}/bin/utils
 
-function prompt_yesorno ()
-{
-    while true; do
-        ${ECHO_E} "${YELLOW}"
-        read -p "$1 " yn < /dev/tty
-        ${ECHO_E} "${ENDCOLOR}"
-        case $yn in
-            [Yy]* ) return 0;;
-            [Nn]* ) return 1;;
-            * ) echo "Please answer yes or no.";;
-        esac
-    done
+function show_new_script_usage() {
+  show_version
+  echo "usages: "
+  echo "  ${app} config add module=abc cli='ABC=DEF' "
 }
 
-function parse_json() {
-  export PYTHONIOENCODING=utf8
-  keys=
-  args=("$@")
-  
-  for((i=0;i<$#;i++));
-  do
-    if [ $i != 0 ] && [ $i != 1 ];
-    then
-      keys="${keys}['${args[$i]}']"
-      log_debug "$i : ${args[$i]}"
+function create_new_script() {
+
+echo "
+export ${cli}
+" >> ${HI_CLI_HOME}/modules/${module}/config
+}
+
+function run() {
+  log_debug "========== new ==============="
+  result=1
+  if [ "${action}" != "filter" ]; then
+    script_file=${HI_CLI_HOME}/modules/${module}/${action}
+
+    mkdir -p ${HI_CLI_HOME}/modules/${module}
+
+    if [ -f "${script_file}" ]; then
+      if prompt_yesorno "The module $script_file is already exist, do you wish to overwrie it? [yes/no]"; then
+        create_new_script
+        result=$?
+      else
+        exit
+      fi
+    else
+      create_new_script 
+      # create link to $(brew --prefix)/etc/bash_completion.d for mac or /etc/bash_completion.d for linux 
     fi
-  done
-  log_debug ${keys}
+  fi
 
-  value=$(echo $2 | python -c "import sys, json; print json.load(sys.stdin)${keys}" )
-  
-  eval $1="\${value}"
-}
-
-function get_file_from_path() {
-  src=$2
-  eval $1="${src##*/}"
-}
-
-function get_dir_from_path() {
-  src=$2
-  eval $1="${src%/*}"
+  eval  $1='"$result"' 
+  eval  $2='"$cli"' 
 }
