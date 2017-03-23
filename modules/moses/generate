@@ -30,16 +30,24 @@ source ${HI_CLI_HOME}/bin/logging
 ###############################################################################
 function run() {
 
-  cli=$(cat <<-EOF
+  gid=${GROUP_ID}
+
+  
+  if [ -f pom.xml ]; 
+  then
+    cli=$(cat <<-EOF
 java -cp lib/velocity-1.7.jar:lib/mybatis-plus-2.0.2.jar:lib/mp-generator.jar:lib/mybatis-3.4.2.jar:lib/mysql-connector-java-5.1.39.jar:lib/commons-collections-3.2.1.jar:lib/commons-lang-2.4.jar cn.vpclub.moses.mp.generator.MpGenerator tablePrefixs=null&password=${DB_PASSWORD}&packageParent=${GROUP_ID}&packageModuleName=${PACKAGE}&author=${AUTHOR}&driverName=${DB_DRIVER}&url=${DB_URL}&outdir=${TARGET}&username=${DB_USER}
 EOF
-  )
-
-  pushd ${module_dir} > /dev/null
-  ${cli}
-  result=$?
-  popd
-
+)
+    pushd ${module_dir} > /dev/null
+    ${cli}
+    result=$?
+    popd
+  else
+    log_warn "Please run this command in maven project"
+    result=1
+  fi
+  
   eval  $1="\${result}"
   eval  $2="\${cli}"
 }
