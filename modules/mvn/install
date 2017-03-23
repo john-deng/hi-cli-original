@@ -34,6 +34,10 @@ function run() {
     if [ "${jar}" == "jar" ]; then
       if [ "${aid}" != "" ]; then
         jar=${aid}.jar
+        if [ ! -f ${jar} ];
+        then
+          jar=${aid}-${ver}.jar
+        fi
       else
         jar=
       fi

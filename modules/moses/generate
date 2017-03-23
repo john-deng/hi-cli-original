@@ -19,12 +19,31 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Sat Mar 18 15:27:16 CST 2017
-# module: oc
-# Action: 
+# Updated: Wed Mar 22 20:58:31 CST 2017
+# module: mp
+# Action: generate
 ###############################################################################
 
-#export OPENSHIFT_MASTER=https://192.168.1.94:8443
-export OPENSHIFT_MASTER=https://172.16.5.80:8443
+source ${HI_CLI_HOME}/bin/colors
+source ${HI_CLI_HOME}/bin/clap
+source ${HI_CLI_HOME}/bin/logging
+###############################################################################
+function run() {
+
+  cli=$(cat <<-EOF
+java -cp lib/velocity-1.7.jar:lib/mybatis-plus-2.0.2.jar:lib/mp-generator.jar:lib/mybatis-3.4.2.jar:lib/mysql-connector-java-5.1.39.jar:lib/commons-collections-3.2.1.jar:lib/commons-lang-2.4.jar cn.vpclub.moses.mp.generator.MpGenerator tablePrefixs=null&password=${DB_PASSWORD}&packageParent=${GROUP_ID}&packageModuleName=${PACKAGE}&author=${AUTHOR}&driverName=${DB_DRIVER}&url=${DB_URL}&outdir=${TARGET}&username=${DB_USER}
+EOF
+  )
+
+  pushd ${module_dir} > /dev/null
+  ${cli}
+  result=$?
+  popd
+
+  eval  $1="\${result}"
+  eval  $2="\${cli}"
+}
+
+###############################################################################
 
 

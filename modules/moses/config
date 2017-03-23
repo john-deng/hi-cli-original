@@ -19,12 +19,19 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Sat Mar 18 15:27:16 CST 2017
-# module: oc
-# Action: 
+# Updated: Wed Mar 22 20:58:31 CST 2017
+# Module: mp
+# Action: generate
 ###############################################################################
 
-#export OPENSHIFT_MASTER=https://192.168.1.94:8443
-export OPENSHIFT_MASTER=https://172.16.5.80:8443
 
-
+DB_NAME=mybatis_plus
+DB_HOST=172.16.5.90
+DB_URL=jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?characterEncoding=utf8
+DB_USER=root
+DB_PASSWORD=${password}
+DB_DRIVER=com.mysql.jdbc.Driver
+GROUP_ID=cn.vpclub.moses
+PACKAGE=mpdemo
+AUTHOR=rc
+TARGET=${PWD}/src/main/java

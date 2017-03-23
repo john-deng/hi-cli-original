@@ -36,13 +36,17 @@ function run() {
     if [ "${jar}" == "jar" ]; then
       if [ "${aid}" != "" ]; then
         jar=${aid}.jar
+        if [ ! -f ${jar} ];
+        then
+          jar=${aid}-${ver}.jar
+        fi
       else
         jar=
       fi
     fi
 
     if [ "${jar}" != "" ]; then
-      cli="mvn deploy:deploy-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar}"
+      cli="mvn deploy:deploy-file -DgroupId=${gid} -DartifactId=${aid} -Dversion=${ver} -Dpackaging=jar -Dfile=${jar} -Durl=${MAVEN_URL}"
     fi
   fi
 

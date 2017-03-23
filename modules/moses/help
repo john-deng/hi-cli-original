@@ -19,12 +19,36 @@
 # limitations under the License.
 #
 # Author: John Deng (john.deng@outlook.com)
-# Updated: Sat Mar 18 15:27:16 CST 2017
-# module: oc
-# Action: 
+# Updated: Thu Mar 23 23:09:27 CST 2017
+# module: mp
+# Action: help
 ###############################################################################
 
-#export OPENSHIFT_MASTER=https://192.168.1.94:8443
-export OPENSHIFT_MASTER=https://172.16.5.80:8443
+source ${HI_CLI_HOME}/bin/colors
+source ${HI_CLI_HOME}/bin/clap
+source ${HI_CLI_HOME}/bin/logging
+###############################################################################
+function run() {
+
+  cli=$(cat <<-EOF
+===============================================================  
+usage:
+
+  hi moses generate all password=db-password
+
+===============================================================
+EOF
+  )
+  
+  echo "${cli}"
+
+  cli=
+
+  result=$?
+
+  eval $1=0
+}
+
+###############################################################################
 
 
