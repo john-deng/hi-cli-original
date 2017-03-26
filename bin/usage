@@ -26,8 +26,10 @@ source "${HI_CLI_HOME}/bin/colors"
 
 function show_hi_usage() {
 
-  ${ECHO_E} " ${BLUE}usages:
-  ${app} module-name module-action arguments
-  ${app} mvn rebuild 
-  ${ENDCOLOR}"
+  ${ECHO_E} "${GRAY}Usages:
+  ${app} [man] [do] [something] with [arguments]
+Examples:
+  ${app} package install moses
+For more information, run: 
+  hi help${ENDCOLOR}"
 }
