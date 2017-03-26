@@ -65,6 +65,6 @@ function get_file_from_path() {
 }
 
 function get_dir_from_path() {
-  src=$2
-  eval $1="${src%/*}"
+  src="$2"
+  eval $1="\${src%/*}"
 }

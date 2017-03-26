@@ -65,14 +65,14 @@ function main() {
   get_file_from_path module_command "${module_path}"
   export module_command
 
-  if [ -f ${module_dir}/config ];
+  if [ -f "${module_dir}/config" ];
   then
-    source ${module_dir}/config
+    source "${module_dir}/config"
   fi
 
-  if [ -f ${module_dir}/init ];
+  if [ -f "${module_dir}/init" ];
   then
-    source ${module_dir}/init
+    source "${module_dir}/init"
   fi
   
   if [ -f "${default_module}" ]; then

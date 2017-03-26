@@ -60,6 +60,6 @@ export ECHO_E="echo"
 if [ "$OS" == "Darwin" ]; then
     export COLOR_PREFIX="\033"
     export ECHO_E="echo -e"
-elif [ "$OS" == "MSYS" ]; then
+elif [ "$OS" == "MSYS" ] || [ "$OS" == "Linux" ]; then
     export ECHO_E="echo -e"
 fi
