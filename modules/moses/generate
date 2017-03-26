@@ -36,11 +36,13 @@ function run() {
   if [ -f pom.xml ]; 
   then
     cli=$(cat <<-EOF
-java -cp lib/velocity-1.7.jar:lib/mybatis-plus-2.0.2.jar:lib/mp-generator.jar:lib/mybatis-3.4.2.jar:lib/mysql-connector-java-5.1.39.jar:lib/commons-collections-3.2.1.jar:lib/commons-lang-2.4.jar cn.vpclub.moses.mp.generator.MpGenerator tablePrefixs=null&password=${DB_PASSWORD}&packageParent=${GROUP_ID}&packageModuleName=${PACKAGE}&author=${AUTHOR}&driverName=${DB_DRIVER}&url=${DB_URL}&outdir=${TARGET}&username=${DB_USER}
+java -cp lib/commons-lang3-3.4.jar:lib/slf4j-api-1.7.12.jar:lib/velocity-1.7.jar:lib/mybatis-plus-2.0.2.jar:lib/mp-generator.jar:lib/mybatis-3.4.2.jar:lib/mysql-connector-java-5.1.39.jar:lib/commons-collections-3.2.1.jar:lib/commons-lang-2.4.jar cn.vpclub.moses.mp.generator.MpGenerator tablePrefixs=null&password=${DB_PASSWORD}&packageParent=${GROUP_ID}&packageModuleName=${PACKAGE}&author=${AUTHOR}&driverName=${DB_DRIVER}&url=${DB_URL}&outdir=${TARGET}&username=${DB_USER}
 EOF
 )
     pushd ${module_dir} > /dev/null
     ${cli}
+    mvn clean install -Dmaven.skip.test=true
+    ${cli}&generationType=${GEN_TYPE}
     result=$?
     popd
   else

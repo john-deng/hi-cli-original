@@ -34,4 +34,5 @@ DB_DRIVER=com.mysql.jdbc.Driver
 GROUP_ID=cn.vpclub.moses
 PACKAGE=mpdemo
 AUTHOR=rc
+GEN_TYPE=
 TARGET=${PWD}/src/main/java
