@@ -24,9 +24,9 @@
 # Action: replace
 ###############################################################################
 
-source ${HI_CLI_HOME}/bin/colors
-source ${HI_CLI_HOME}/bin/clap
-source ${HI_CLI_HOME}/bin/logging
+source "${HI_CLI_HOME}/bin/colors"
+source "${HI_CLI_HOME}/bin/clap"
+source "${HI_CLI_HOME}/bin/logging"
 ###############################################################################
 usage(){
  echo "USAGE: $0 {-n|-b|-c} <BASE_DIR> <NEW_VERSION> \n\

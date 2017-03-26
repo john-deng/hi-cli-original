@@ -24,9 +24,9 @@
 # Action: install
 ###############################################################################
 
-source ${HI_CLI_HOME}/bin/colors
-source ${HI_CLI_HOME}/bin/clap
-source ${HI_CLI_HOME}/bin/logging
+source "${HI_CLI_HOME}/bin/colors"
+source "${HI_CLI_HOME}/bin/clap"
+source "${HI_CLI_HOME}/bin/logging"
 ###############################################################################
 function run() {
   cli="mvn install -Dbuild=dev -Dmaven.test.skip=true"

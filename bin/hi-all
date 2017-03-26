@@ -34,11 +34,11 @@ fi
 module_name=$1
 module_action=$2
 
-source ${HI_CLI_HOME}/bin/colors
-source ${HI_CLI_HOME}/bin/clap
-source ${HI_CLI_HOME}/bin/logging
-source ${HI_CLI_HOME}/bin/version
-source ${HI_CLI_HOME}/bin/usage
+source "${HI_CLI_HOME}/bin/colors"
+source "${HI_CLI_HOME}/bin/clap"
+source "${HI_CLI_HOME}/bin/logging"
+source "${HI_CLI_HOME}/bin/version"
+source "${HI_CLI_HOME}/bin/usage"
 
 modules=""
 

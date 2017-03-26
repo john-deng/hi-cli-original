@@ -22,8 +22,8 @@
 # Updated: 2017-02-11
 ###############################################################################
 
-source ${HI_CLI_HOME}/bin/init
-source ${HI_CLI_HOME}/bin/colors
+source "${HI_CLI_HOME}/bin/init"
+source "${HI_CLI_HOME}/bin/colors"
 
 function log_debug() {
 	if [ "${debug}" == "debug" ]; 

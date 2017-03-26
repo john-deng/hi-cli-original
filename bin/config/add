@@ -43,9 +43,9 @@ function run() {
   log_debug "========== new ==============="
   result=1
   if [ "${action}" != "filter" ]; then
-    module_file=${HI_CLI_HOME}/modules/${module}/config
-    log_debug $module_file
-    if [ $(cat ${module_file} | grep "${cli}" | wc -l) != 0 ]; then
+    module_file="${HI_CLI_HOME}/modules/${module}/config"
+    log_debug "${module_file}"
+    if [ $(cat "${module_file}" | grep "${cli}" | wc -l) != 0 ]; then
       if prompt_yesorno "${cli} is already exist, do you wish to add it? [yes/no]"; then
         add_config
       else

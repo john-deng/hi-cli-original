@@ -25,9 +25,9 @@
 # Simplify third party artifact deploy, e.g.: hi mvn install jar gid=com.oracle aid=ojdbc14 ver=10.2.0.5.0
 ###############################################################################
 
-source ${HI_CLI_HOME}/bin/colors
-source ${HI_CLI_HOME}/bin/clap
-source ${HI_CLI_HOME}/bin/logging
+source "${HI_CLI_HOME}/bin/colors"
+source "${HI_CLI_HOME}/bin/clap"
+source "${HI_CLI_HOME}/bin/logging"
 ###############################################################################
 function run() {
   cli="mvn deploy -Dbuild=dev"

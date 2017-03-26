@@ -57,16 +57,16 @@ fi
 
 #echo "append ..."
 
-HI_CLI_HOME=$PWD
+HI_CLI_HOME="${PWD}"
 HI_CLI_BIN=$(echo ${HI_CLI_HOME##*\/})
-if [ ${HI_CLI_BIN} == "bin" ]; then
-  HI_CLI_HOME=${HI_CLI_HOME/\/bin/}
+if [ "${HI_CLI_BIN}" == "bin" ]; then
+  HI_CLI_HOME="${HI_CLI_HOME/\/bin/}"
 fi
-echo  HI_CLI_HOME: $HI_CLI_HOME
+echo  HI_CLI_HOME: "${HI_CLI_HOME}"
 
 echo "#hi-cli-begin
-export HI_CLI_HOME=${HI_CLI_HOME}
-export PATH=\$HI_CLI_HOME/bin:\$PATH
+export HI_CLI_HOME="${HI_CLI_HOME}"
+export PATH="\${HI_CLI_HOME}/bin":\$PATH
 #hi-cli-end" >> ${ETC_PROFILE}
 
 #source ${ETC_PROFILE}
